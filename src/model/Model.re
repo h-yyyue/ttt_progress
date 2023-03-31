@@ -15,6 +15,11 @@
  * 
  * Player.t = X | O
  * Player.toggle: Player.t -> Player.t, change to the other player
+ * 
+ * Model.subgrid
+ * Model.subgrid_winner
+ * Model has an active subgrid which indicates which subgrid is currently being played
+ * Update will receive two indexes, one for the subgrid and one for the square
  */
 
 
@@ -22,7 +27,8 @@ type square =
   | Unmarked
   | Marked(Player.t);
 
-type grid = Grid.t(square);
+type subgrid = Grid.t(square); //rename
+type grid = Grid.t(subgrid); //copy paste
 
 type t = {
   board: grid,
@@ -32,12 +38,17 @@ type t = {
 // required by Incr_dom
 let cutoff = (===);
 
-let empty_grid = (
+let empty_subgrid = (
   (Unmarked, Unmarked, Unmarked),
   (Unmarked, Unmarked, Unmarked),
   (Unmarked, Unmarked, Unmarked),
 );
-
+//rename and copy paste
+let empty_grid = (
+  (empty_subgrid, empty_subgrid, empty_subgrid),
+  (empty_subgrid, empty_subgrid, empty_subgrid),
+  (empty_subgrid, empty_subgrid, empty_subgrid),
+);
 let init: t = {player_turn: X, board: empty_grid};
 
 let winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) =>
