@@ -1,0 +1,144 @@
+:root {
+  --inactive-subgrid-color: #ccc;
+  --active-subgrid-color: black;
+  --grid-color: black;
+  --board-z: 0;
+  --grid-z: 1;
+  --subgrid-z: 2;
+  --square-z: 3;
+  --small-winner-line-z: 4;
+  --big-player-mark-z: 5;
+  --big-winner-line-z: 6;
+}
+
+#board {
+  position: relative;
+  margin: auto;
+  height: 96vh;
+  width: 96vh;
+  z-index: var(--board-z);
+}
+#board:focus {
+  outline: 0;
+}
+
+.grid {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: transparent;
+  z-index: var(--grid-z);
+}
+
+.subgrid {
+  position: relative;
+  display: grid;
+  height: 92%;
+  width: 92%;
+  top: 4%;
+  left: 4%;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: transparent;
+  z-index: var(--subgrid-z);
+}
+.subgrid.inactive {
+  cursor: not-allowed;
+}
+
+.grid-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: var(--grid-z);
+}
+.grid-lines > svg {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1;
+  fill: none;
+}
+.grid > .grid-lines {
+  stroke: var(--grid-color);
+}
+.subgrid.inactive > .grid-lines {
+  stroke: var(--inactive-subgrid-color);
+}
+.subgrid.active > .grid-lines {
+  stroke: var(--active-subgrid-color);
+}
+
+.square {
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  z-index: var(--square-z);
+}
+
+.player-mark {
+  position: relative;
+}
+.subgrid > .player-mark {
+  height: 100%;
+  width: 100%;
+}
+.square > .player-mark {
+  height: 92%;
+  width: 92%;
+  top: 4%;
+  left: 4%;
+}
+.player-mark > svg {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.grid > .square > .player-mark > svg {
+  stroke: var(--grid-color);
+}
+.subgrid.inactive > .square > .player-mark > svg {
+  stroke: var(--inactive-subgrid-color);
+}
+.subgrid.active > .square > .player-mark > svg {
+  stroke: var(--active-subgrid-color);
+}
+.subgrid > .player-mark > svg {
+  stroke: var(--grid-color);
+}
+.subgrid > .player-mark {
+  position: absolute;
+  z-index: var(--big-player-mark-z);
+  cursor: not-allowed;
+}
+
+.winner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  fill: none;
+  stroke: var(--grid-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.subgrid > .winner-line {
+  z-index: var(--small-winner-line-z);
+}
+.subgrid.inactive > .winner-line {
+  stroke: var(--inactive-subgrid-color);
+}
+.subgrid.active > .winner-line {
+  stroke: var(--active-subgrid-color);
+}
+.grid > .winner-line {
+  stroke: var(--grid-color);
+  z-index: var(--big-winner-line-z);
+}
