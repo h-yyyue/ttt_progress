@@ -69,4 +69,20 @@ let subgrid_winner = (subgrid: subgrid): option((Player.t, Grid.three_in_a_row))
   );
 
 let grid_winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) =>
-  
+  Grid.threes_in_a_row
+  |> List.filter_map(three_in_a_row => {
+     let (square0, square1, square2) =
+         three_in_a_row |> Triple.map(i => grid |> Grid.get_item(i));
+         //check whether each wins
+        switch (subgrid_winner(square0), subgrid_winner(square1), subgrid_winner(square2)) {
+          | (Some((p0, _)), Some((p1, _)), Some((p2, _))) when p0 == p1 && p1 == p2 =>
+            Some((p0, three_in_a_row))
+          | _ => None
+        };
+  })
+  |> (
+    fun
+    | [] => None
+    | [winner, ..._] => Some(winner)
+  );
+         
