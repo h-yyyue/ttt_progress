@@ -22,13 +22,11 @@
  * Update will receive two indexes, one for the subgrid and one for the square
  */
 
-
 type square =
   | Unmarked
   | Marked(Player.t);
 
-type subgrid = Grid.t(square); //rename
-type grid = Grid.t(subgrid); //copy paste
+type grid = Grid.t(square); 
 
 type t = {
   board: grid,
@@ -38,24 +36,26 @@ type t = {
 // required by Incr_dom
 let cutoff = (===);
 
-let empty_subgrid = (
-  (Unmarked, Unmarked, Unmarked),
-  (Unmarked, Unmarked, Unmarked),
-  (Unmarked, Unmarked, Unmarked),
-);
-//rename and copy paste
 let empty_grid = (
-  (empty_subgrid, empty_subgrid, empty_subgrid),
-  (empty_subgrid, empty_subgrid, empty_subgrid),
-  (empty_subgrid, empty_subgrid, empty_subgrid),
+  (Unmarked, Unmarked, Unmarked),
+  (Unmarked, Unmarked, Unmarked),
+  (Unmarked, Unmarked, Unmarked),
 );
+
+/*
+ * Except for modification to board structure, 
+ * active_subgrid also need to be recorded
+ */
 let init: t = {player_turn: X, board: empty_grid};
 
-let subgrid_winner = (subgrid: subgrid): option((Player.t, Grid.three_in_a_row)) =>
+/*
+ * current winner will only be a subgrid winner with our new structure
+ */
+let winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) =>
   Grid.threes_in_a_row
   |> List.filter_map(three_in_a_row => {
        let (square0, square1, square2) =
-         three_in_a_row |> Triple.map(i => subgrid |> Grid.get_item(i));
+         three_in_a_row |> Triple.map(i => grid |> Grid.get_item(i));
        switch (square0, square1, square2) {
        | (Marked(p0), Marked(p1), Marked(p2)) when p0 == p1 && p1 == p2 =>
          Some((p0, three_in_a_row))
@@ -68,21 +68,11 @@ let subgrid_winner = (subgrid: subgrid): option((Player.t, Grid.three_in_a_row))
     | [winner, ..._] => Some(winner)
   );
 
-let grid_winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) =>
-  Grid.threes_in_a_row
-  |> List.filter_map(three_in_a_row => {
-     let (square0, square1, square2) =
-         three_in_a_row |> Triple.map(i => grid |> Grid.get_item(i));
-         //check whether each wins
-        switch (subgrid_winner(square0), subgrid_winner(square1), subgrid_winner(square2)) {
-          | (Some((p0, _)), Some((p1, _)), Some((p2, _))) when p0 == p1 && p1 == p2 =>
-            Some((p0, three_in_a_row))
-          | _ => None
-        };
-  })
-  |> (
-    fun
-    | [] => None
-    | [winner, ..._] => Some(winner)
-  );
+/*
+ * We need a new function for grid winner!
+ * Don't directly copy the code from subgrid_winner and check whether each node is a winner
+ * redraw each node with the result of subgrid_winner and use subgrid_winner for the redrawed board instead
+ */
+ 
+
          
