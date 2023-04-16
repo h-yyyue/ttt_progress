@@ -14,3 +14,9 @@ type index = (Triple.index, Triple.index);
 
 //let put_item = ((r, c): index, item: 'item, grid: t('item)) => TODO
 
+/*
+ * Goal: In View.re, we need to traverse all indixes to draw each of them.(using List.map).
+         Generate a list of all possible indices in a grid.
+ */
+
+//let index_list : list(index) = TODO
