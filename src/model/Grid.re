@@ -31,3 +31,12 @@ type index = (Triple.index, Triple.index);
 type three_in_a_row = Triple.t(index);
 
  //let threes_in_a_row : list(three_in_a_row) = TODO
+
+
+/*
+ * Goal: map a function to all items in a grid, and output ths new grid.
+ * 
+ * Hint: use Triple.map.
+ */
+
+//let map = (f: 'item1 => 'item2, grid: t('item1)) => TODO
