@@ -20,3 +20,14 @@ type index = (Triple.index, Triple.index);
  */
 
 //let index_list : list(index) = TODO
+
+
+ /*
+  * Goal: When checking whether a player wins, we need to traverse all triples of indixes in a line
+         Generate a list of all triples of indices that win a tic tac toe game.
+  */
+
+[@deriving sexp]
+type three_in_a_row = Triple.t(index);
+
+ //let threes_in_a_row : list(three_in_a_row) = TODO
