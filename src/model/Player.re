@@ -2,8 +2,8 @@ type t =
   | X
   | O;
 
-let toggle = player =>
-  switch (player) {
-  | X => O
-  | O => X
-  };
+/*
+ * Returns the opposite player.
+ * let toggle = player => TODO
+ */
+

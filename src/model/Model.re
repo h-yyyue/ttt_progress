@@ -1,4 +1,5 @@
 /*
+ * Some functions you can use:
  * Triple.t('a) = ('a, 'a, 'a)
  * Triple.index = 0 | 1 | 2
  * Triple.get_component: (Triple.index, Triple.t('a)) => 'a
@@ -16,62 +17,54 @@
  * Player.t = X | O
  * Player.toggle: Player.t -> Player.t, change to the other player
  * 
- * Model.subgrid
- * Model.subgrid_winner
- * Model has an active subgrid which indicates which subgrid is currently being played
- * Update will receive two indexes, one for the subgrid and one for the square
  */
 
 type square =
   | Unmarked
   | Marked(Player.t);
 
+/*
+ * Goal: add subgrid and modify grid
+ */
 type grid = Grid.t(square); 
 
 type t = {
   board: grid,
+  active_subgrid: option(Grid.index),
   player_turn: Player.t,
 };
 
 // required by Incr_dom
 let cutoff = (===);
 
+/*
+ * Goal: let empty_grid suitable for Meta tic tac toe
+ */
 let empty_grid = (
   (Unmarked, Unmarked, Unmarked),
   (Unmarked, Unmarked, Unmarked),
   (Unmarked, Unmarked, Unmarked),
 );
 
-/*
- * Except for modification to board structure, 
- * active_subgrid also need to be recorded
- */
-let init: t = {player_turn: X, board: empty_grid};
+let init: t = {player_turn: X, active_subgrid: None, board: empty_grid};
 
 /*
- * current winner will only be a subgrid winner with our new structure
+ * Goal: let subgrid_winner return the winner of a subgrid, 
+ *
+ * Hint: (only for reference, you can use other methods)
+         1. traverse 'Grid.threes_in_a_row', use List.filter_map to filter out the 'Grid.three_in_a_row' which is not a winner
+         2. for each 'Grid.three_in_a_row', use 'Grid.get_item' to get the player of each square, use 'Triple.map' to get the triple of players
+         3. check if the content of the triple is the same, if so, return the player as well as the 'Grid.three_in_a_row'. Otherwise, return None.
+ * let subgrid_winner = (subgrid: subgrid): option((Player.t, Grid.three_in_a_row)) => TODO
  */
-let winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) =>
-  Grid.threes_in_a_row
-  |> List.filter_map(three_in_a_row => {
-       let (square0, square1, square2) =
-         three_in_a_row |> Triple.map(i => grid |> Grid.get_item(i));
-       switch (square0, square1, square2) {
-       | (Marked(p0), Marked(p1), Marked(p2)) when p0 == p1 && p1 == p2 =>
-         Some((p0, three_in_a_row))
-       | _ => None
-       };
-     })
-  |> (
-    fun
-    | [] => None
-    | [winner, ..._] => Some(winner)
-  );
+
 
 /*
- * We need a new function for grid winner!
- * Don't directly copy the code from subgrid_winner and check whether each node is a winner
- * redraw each node with the result of subgrid_winner and use subgrid_winner for the redrawed board instead
+ * Goal: let grid_winner returning the winner of the whole board
+ * Hint: 1. use 'Grid.map' to check each subgrid
+ *       2. redraw each node with the result of subgrid_winner 
+         3. use subgrid_winner for the redrawed board
+  * let grid_winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) => TODO
  */
  
 
