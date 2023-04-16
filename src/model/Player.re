@@ -3,7 +3,7 @@ type t =
   | O;
 
 /*
- * Returns the opposite player.
- * let toggle = player => TODO
+ * Goal: Returns the opposite player.
  */
 
+//let toggle = TODO

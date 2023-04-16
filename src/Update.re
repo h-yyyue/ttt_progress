@@ -14,7 +14,7 @@ module Action = {
    then Update the 'next_subgrid'(active subgrid) and 'player turn'
  * 4. check whether in the modified subgrid someone is won (Model.subgrid_winner)
  * 5. if no
-      active subgrid: same relative position to the board as the click square to the subgrid(same index)
+      active subgrid: same index in the board as the square in the subgrid
       player turn changed by Player.toggle
  *    if yes
       any subgrid can be operated on next turn(just set it None)
@@ -22,7 +22,7 @@ module Action = {
   * 6. return the updated model
 
  * let update = (action: Action.t, model: Model.t): Model.t => TODO
- * Note Model.t constains 
+ * Note that Model.t contains:
    {
    board: grid,
    active_subgrid: option(Grid.index),
