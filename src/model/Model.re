@@ -55,3 +55,14 @@ let empty_grid = (
 
 let init: t = {player_turn: X, active_subgrid: None, board: empty_grid};
     
+
+/*
+ * Goal: let subgrid_winner return the winner of a subgrid, i,e. option((Player.t, Grid.three_in_a_row)), None if no winner
+ *
+ * Hint: (only for reference, you can use other methods)
+         1. traverse 'Grid.threes_in_a_row', use List.filter_map to filter out the 'Grid.three_in_a_row' which is not a winner
+         2. for each 'Grid.three_in_a_row', use 'Grid.get_item' to get the player of each square, use 'Triple.map' to get the triple of players
+         3. check if the content in the triple is the same, if so, return the player as well as the 'Grid.three_in_a_row'. Otherwise, return None.
+ */
+
+//let subgrid_winner = (subgrid: subgrid): option((Player.t, Grid.three_in_a_row)) => TODO
