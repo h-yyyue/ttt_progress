@@ -43,6 +43,10 @@ type t = {
 // required by Incr_dom
 let cutoff = (===);
 
+/*
+ * Goal: make empty_grid suitable for Meta tic tac toe
+ *       you may define empty_subgrid first 
+ */
 let empty_grid = (
   (Unmarked, Unmarked, Unmarked),
   (Unmarked, Unmarked, Unmarked),
