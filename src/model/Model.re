@@ -23,7 +23,9 @@ type square =
   | Unmarked
   | Marked(Player.t);
 
-
+/*
+ * Goal: add new type subgrid and modify grid
+ */
 type grid = Grid.t(square); // TODO
 
 /*
@@ -40,4 +42,12 @@ type t = {
 
 // required by Incr_dom
 let cutoff = (===);
-      
+
+let empty_grid = (
+  (Unmarked, Unmarked, Unmarked),
+  (Unmarked, Unmarked, Unmarked),
+  (Unmarked, Unmarked, Unmarked),
+);// TODO
+
+let init: t = {player_turn: X, active_subgrid: None, board: empty_grid};
+    
