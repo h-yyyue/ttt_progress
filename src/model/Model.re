@@ -66,3 +66,14 @@ let init: t = {player_turn: X, active_subgrid: None, board: empty_grid};
  */
 
 //let subgrid_winner = (subgrid: subgrid): option((Player.t, Grid.three_in_a_row)) => TODO
+
+
+/*
+ * Goal: let grid_winner returning the winner of the whole board
+ * Hint: 1. use 'Grid.map' to check each subgrid
+ *       2. redraw each node with the result of subgrid_winner 
+         3. use subgrid_winner for the redrawed board
+ */
+ 
+//let grid_winner = (grid: grid): option((Player.t, Grid.three_in_a_row)) => TODO
+         
