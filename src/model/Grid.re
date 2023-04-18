@@ -4,9 +4,9 @@ type t('item) = Triple.t(Triple.t('item));
 type index = (Triple.index, Triple.index);
 
 /*
- * Goal: get item from a grid and return the item, 
+ * Goal: get item from a grid and return the item,
          put item into a grid and return the new grid.
- * 
+ *
  * Hint: use Triple.get_component and Triple.put_component.
  */
 
@@ -22,20 +22,20 @@ type index = (Triple.index, Triple.index);
 //let index_list : list(index) = TODO
 
 
- /*
-  * Goal: When checking whether a player wins, we need to traverse all triples of indixes in a line
-         Generate a list of all triples of indices that win a tic tac toe game.
-  */
+/*
+ * Goal: When checking whether a player wins, we need to traverse all triples of indixes in a line
+        Generate a list of all triples of indices that win a tic tac toe game.
+ */
 
 [@deriving sexp]
 type three_in_a_row = Triple.t(index);
 
- //let threes_in_a_row : list(three_in_a_row) = TODO
+//let threes_in_a_row : list(three_in_a_row) = TODO
 
 
 /*
  * Goal: map a function to all items in a grid, and output ths new grid.
- * 
+ *
  * Hint: use Triple.map.
  */
 

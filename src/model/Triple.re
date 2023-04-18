@@ -8,9 +8,9 @@ type index = int;
 
 /*
  * Start from here!
- * Goal: get a component of a truple and return the component; 
+ * Goal: get a component of a truple and return the component;
          put(update) a component of a triple and return the new triple.
-  * Hint: if you use switch to match the index and return the component, use _two instead of 2 to avoid the not exhausted warning.   
+ * Hint: if you use switch to match the index and return the component, use _two instead of 2 to avoid the not exhausted warning.
  */
 
 //let get_component = (i : index, (c0, c1, c2) : t('c)) => TODO
