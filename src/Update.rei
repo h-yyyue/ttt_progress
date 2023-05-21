@@ -1,7 +1,6 @@
 module Action: {
   [@deriving sexp]
-  type t =
-    | MarkSquare((int, int));
+  type t ;
 };
 
 let update: (Action.t, Model.t) => Model.t;

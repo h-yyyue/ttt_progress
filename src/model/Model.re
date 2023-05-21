@@ -1,14 +1,16 @@
-type square =
+type status =
   | Unmarked
   | Marked(Player.t);
 
-type grid = unit;
+type square = {
+  status: status,
+  winning: bool,
+};
 
 type t = unit;
 
 type board = {
-  squarelst: list((square, (int, int))),
-  winning_line: option(((int, int), (int, int), (int, int))),
+  squarelst: list(square),
   player_turn: Player.t,
 };
 
@@ -16,7 +18,5 @@ type board = {
 let cutoff = (===);
 
 let init: t = failwith("todo");
-
-let winner = failwith("todo");
 
 let makeBoard = failwith("todo");

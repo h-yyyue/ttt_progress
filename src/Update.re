@@ -2,8 +2,7 @@ open Base;
 
 module Action = {
   [@deriving sexp]
-  type t =
-    | MarkSquare((int, int));
+  type t = unit;
 };
 
 let update = failwith("todo");
