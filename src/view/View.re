@@ -4,7 +4,7 @@ let view_of_square =
     (
       ~inject: Update.Action.t => Vdom.Event.t,
       ~is_active: bool,
-      ~index: Grid.index,
+      ~index: (int, int),
       square: Model.square,
     )
     : Vdom.Node.t =>
@@ -21,26 +21,23 @@ let view_of_square =
     Vdom.Node.div([Vdom.Attr.classes(["square"])], [PlayerMark.view(p)])
   };
 
-/*
- * To dram a grid, we need to draw the lines, squares, and the winner line (if win)
- * lines can be drawn by GridLines.view
- */
 let view_of_grid =
-    (~inject: Update.Action.t => Vdom.Event.t, grid: Model.grid): Vdom.Node.t => {
+    (~inject: Update.Action.t => Vdom.Event.t, grid: Model.t): Vdom.Node.t => {
+  let board = Model.makeBoard(grid);
   let squares =
-    Grid.index_list
-    |> List.map(index => {
-         let square = grid |> Grid.get_item(index);
+    board.squarelst
+    |> List.map(squs => {
+         let (squ, index) = squs;
          let is_active =
-           switch (Model.winner(grid)) {
+           switch (board.winning_line) {
            | Some(_) => false
-           | None => true 
+           | None => true
            };
-         view_of_square(~inject, ~is_active, ~index, square);
+         view_of_square(~inject, ~is_active, ~index, squ);
        });
   let winner_line =
-    Model.winner(grid)
-    |> Option.map(((_, three_in_a_row)) => WinnerLine.view(three_in_a_row))
+    board.winning_line
+    |> Option.map(three_in_a_row => WinnerLine.view(three_in_a_row))
     |> Option.to_list;
   Vdom.Node.div(
     [Vdom.Attr.classes(["grid"])],
@@ -52,13 +49,13 @@ let view = (~inject, model: Model.t) => {
   let cursor_attr =
     Vdom.Attr.create(
       "style",
-      switch (model.player_turn) {
+      switch (Model.makeBoard(model).player_turn) {
       | X => "cursor: url(cursor-x.svg), pointer;"
       | O => "cursor: url(cursor-o.svg), pointer;"
       },
     );
   Vdom.Node.div(
     [Vdom.Attr.id("board"), cursor_attr],
-    [view_of_grid(~inject, model.board)],
+    [view_of_grid(~inject, model)],
   );
 };

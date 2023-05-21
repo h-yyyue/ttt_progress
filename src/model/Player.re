@@ -2,9 +2,8 @@ type t =
   | X
   | O;
 
-/*
- * Goal: Returns the opposite player.
- */
-
-//let toggle = TODO
-
+let toggle = player =>
+  switch (player) {
+  | X => O
+  | O => X
+  };
