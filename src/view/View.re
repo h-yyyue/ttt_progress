@@ -50,9 +50,8 @@ let view_of_square =
     )
   };
 
-let view_of_grid =
-    (~inject: Update.Action.t => Vdom.Event.t, grid: Model.t): Vdom.Node.t => {
-  let board = Model.makeBoard(grid);
+let view = (~inject, model: Model.t) => {
+  let board = Model.makeBoard(model);
   let rec mksquare = (sqlst: list(Model.square), index) => {
     switch (sqlst) {
     | [] => []
@@ -63,20 +62,8 @@ let view_of_grid =
   };
   let squares = mksquare(board.squarelst, 0);
 
-  Vdom.Node.div([Vdom.Attr.classes(["grid"])], squares);
-};
-
-let view = (~inject, model: Model.t) => {
-  let cursor_attr =
-    Vdom.Attr.create(
-      "style",
-      switch (model.player_turn) {
-      | X => "cursor: url(cursor-x.svg), pointer;"
-      | O => "cursor: url(cursor-o.svg), pointer;"
-      },
-    );
   Vdom.Node.div(
-    [Vdom.Attr.id("board"), cursor_attr],
-    [view_of_grid(~inject, model)],
+    [Vdom.Attr.id("board")],
+    [Vdom.Node.div([Vdom.Attr.classes(["grid"])], squares)],
   );
 };
