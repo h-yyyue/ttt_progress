@@ -2,8 +2,20 @@ module Vdom = Virtual_dom.Vdom;
 
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
+let square = (w: bool) =>
+  svg(
+    "rect",
+    [
+      attr("width", "24"),
+      attr("height", "24"),
+      w
+        ? attr("fill", "rgba(100, 10, 0, 0.1)")
+        : attr("fill", "rgba(0, 0, 0, 0)"),
+    ],
+    [],
+  );
 
-let view = (p: Player.t): Vdom.Node.t =>
+let view = (p: Player.t, w: bool): Vdom.Node.t =>
   switch (p) {
   | X =>
     Vdom.Node.div(
@@ -33,6 +45,7 @@ let view = (p: Player.t): Vdom.Node.t =>
               ],
               [],
             ),
+            square(w),
           ],
         ),
       ],
@@ -50,6 +63,7 @@ let view = (p: Player.t): Vdom.Node.t =>
               [attr("cx", "12"), attr("cy", "12"), attr("r", "7")],
               [],
             ),
+            square(w),
           ],
         ),
       ],
