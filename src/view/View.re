@@ -1,4 +1,5 @@
 module Vdom = Virtual_dom.Vdom;
+//import css file
 
 let view_of_square =
     (

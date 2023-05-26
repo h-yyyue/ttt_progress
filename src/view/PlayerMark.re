@@ -2,6 +2,24 @@ module Vdom = Virtual_dom.Vdom;
 
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
+
+let grid = (squares : list(Vdom.Node.t)) => {
+  Vdom.Node.div(
+    [Vdom.Attr.classes(["grid"])],
+    [
+      svg(
+        "svg",
+        [
+          attr("display", "grid"),
+          attr("grid-template-columns", "repeat(3, 1fr)"),
+          attr("grid-auto-flow", "row"),
+        ],
+        squares,
+      )
+    ]
+  )
+}
+
 let square = (w: bool) =>
   svg(
     "rect",
