@@ -9,15 +9,15 @@ let square = (w: bool) =>
       attr("width", "24"),
       attr("height", "24"),
       w
-        ? attr("fill", "rgba(100, 10, 0, 0.1)")
+        ? attr("fill", "rgba(173, 216, 230, 0.1)")
         : attr("fill", "rgba(0, 0, 0, 0)"),
     ],
     [],
   );
 
-let view = (p: Player.t, w: bool): Vdom.Node.t =>
-  switch (p) {
-  | X =>
+let view = (s: square): Vdom.Node.t =>
+  switch (s.marked) {
+  | Some(X) =>
     Vdom.Node.div(
       [Vdom.Attr.classes(["player-mark"])],
       [
@@ -45,12 +45,12 @@ let view = (p: Player.t, w: bool): Vdom.Node.t =>
               ],
               [],
             ),
-            square(w),
+            square(s.winning),
           ],
         ),
       ],
     )
-  | O =>
+  | Some(O) =>
     Vdom.Node.div(
       [Vdom.Attr.classes(["player-mark"])],
       [
@@ -63,9 +63,10 @@ let view = (p: Player.t, w: bool): Vdom.Node.t =>
               [attr("cx", "12"), attr("cy", "12"), attr("r", "7")],
               [],
             ),
-            square(w),
+            square(s.winning),
           ],
         ),
       ],
     )
-  };
+  | None => Vdom.Node.div([], [square(s.winning)])
+};
