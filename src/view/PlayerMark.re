@@ -3,14 +3,18 @@ module Vdom = Virtual_dom.Vdom;
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
-let css : Css_gen.t = (
-  property: "GridTemplateColumns",
-  value: "repeat(3, 1fr)",
-);
 let grid_view = (squares: list(Vdom.Node.t)) => {
   Vdom.Node.div(
     [
-      Vdom.Attr.style((property: "display",  value: "grid")):Css_gen.t,
+      Vdom.Attr.class_("grid"),
+      Vdom.Attr.style(Css_gen.create(~field="display", ~value="grid")),
+      Vdom.Attr.style(
+        Css_gen.create(
+          ~field="grid-template-columns",
+          ~value="repeat(3, 1fr)",
+        ),
+      ),
+      Vdom.Attr.style(Css_gen.create(~field="grid-auto-flow", ~value="row")),
     ],
     squares,
   );
