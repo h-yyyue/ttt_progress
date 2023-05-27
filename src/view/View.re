@@ -11,24 +11,33 @@ let view_of_square =
   switch (square.marked) {
   | None =>
     let click_handlers = [
-      Vdom.Attr.on_click(_ => inject(Update.Action.MarkSquare(index))),
+      Vdom.Attr.on_click(_ => inject(Update.Action.Mark(index))),
     ];
     Vdom.Node.div(
       [Vdom.Attr.classes(["square"]), ...click_handlers],
       [PlayerMark.view(square)],
-    ); 
-  | Some(p) =>
+    );
+  | Some(_) =>
     Vdom.Node.div(
       [Vdom.Attr.classes(["square"])],
       [PlayerMark.view(square)],
     )
-    
   };
 
 let view = (~inject, model: Model.t) => {
-  //TODO
+  let rec mksquare = (sqlst: list(Model.square), index) => {
+    switch (sqlst) {
+    | [] => []
+    | [sq, ...rest] =>
+      let sqview = view_of_square(~inject, ~index, sq);
+      [sqview, ...mksquare(rest, index + 1)];
+    };
+  };
+  let sqview = mksquare(Model.squares(model), 0);
+
   Vdom.Node.div(
     [Vdom.Attr.id("board")],
-    [],
+    //[Vdom.Node.div([Vdom.Attr.classes(["grid"])], sqview)],
+    [PlayerMark.grid_view(sqview)],
   );
 };

@@ -3,22 +3,18 @@ module Vdom = Virtual_dom.Vdom;
 let svg = Vdom.Node.create_svg;
 let attr = Vdom.Attr.create;
 
-let grid = (squares : list(Vdom.Node.t)) => {
+let css : Css_gen.t = (
+  property: "GridTemplateColumns",
+  value: "repeat(3, 1fr)",
+);
+let grid_view = (squares: list(Vdom.Node.t)) => {
   Vdom.Node.div(
-    [Vdom.Attr.classes(["grid"])],
     [
-      svg(
-        "svg",
-        [
-          attr("display", "grid"),
-          attr("grid-template-columns", "repeat(3, 1fr)"),
-          attr("grid-auto-flow", "row"),
-        ],
-        squares,
-      )
-    ]
-  )
-}
+      Vdom.Attr.style((property: "display",  value: "grid")):Css_gen.t,
+    ],
+    squares,
+  );
+};
 
 let square = (w: bool) =>
   svg(
@@ -26,14 +22,16 @@ let square = (w: bool) =>
     [
       attr("width", "24"),
       attr("height", "24"),
+      attr("stroke", "black"),
+      attr("stroke-width", "1"),
       w
-        ? attr("fill", "rgba(173, 216, 230, 0.1)")
+        ? attr("fill", "rgba(173, 216, 230, 0.2)")
         : attr("fill", "rgba(0, 0, 0, 0)"),
     ],
     [],
   );
 
-let view = (s: square): Vdom.Node.t =>
+let view = (s: Model.square): Vdom.Node.t =>
   switch (s.marked) {
   | Some(X) =>
     Vdom.Node.div(
@@ -86,5 +84,9 @@ let view = (s: square): Vdom.Node.t =>
         ),
       ],
     )
-  | None => Vdom.Node.div([], [square(s.winning)])
-};
+  | None =>
+    Vdom.Node.div(
+      [Vdom.Attr.classes(["player-mark"])],
+      [svg("svg", [attr("viewBox", "0 0 24 24")], [square(s.winning)])],
+    )
+  };
